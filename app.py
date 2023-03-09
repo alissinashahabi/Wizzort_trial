@@ -1,9 +1,26 @@
-from flask import Flask
+from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
+JOBS = [
+  {
+    'id': 1,
+    'title':'software developer'
+  },
+  {
+    'id': 2,
+    'title': 'testing'
+  }
+]
+
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return render_template('home.html', 
+                           jobs=JOBS,
+                          company_name='hi')
 
-app.run(host='0.0.0.0',debug=True)
+@app.route("/api/jobs")
+def list_jobs():
+  return jsonify(JOBS)
+
+app.run(host='0.0.0.0', debug=True)
